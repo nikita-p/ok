@@ -227,23 +227,22 @@ AbstractList<string>* get_init()
     string e("EMPTY!");
     string d("Hello world!");
     list<string>* s = new list<string>(e, d);
-    string test("test");
-    s->set(0, test);
     return s;
 }
 
-
+/*
 int main()
 {
     AbstractList<string>* al = get_init();
     al->read(cin);
     al->print(cout);
-   /*     al->insert(4,"dda");
+        al->insert(4,"dda");
         al->insert(4,"ddf");
         al->insert(4,"dsd");
         al->insert(4,"edd");
         al->print(cout);
         al->sort(gr);
-        al->print(cout);*/
+        al->print(cout);
     return 0;
 }
+*/

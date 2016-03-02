@@ -1,0 +1,43 @@
+[==========] Running 7 tests from 1 test case.
+[----------] Global test environment set-up.
+[----------] 7 tests from ListTest
+[ RUN      ] ListTest.ListLen
+[       OK ] ListTest.ListLen (0 ms)
+[ RUN      ] ListTest.DeleteOne
+cur.cpp:23: Failure
+Value of: l->len()
+  Actual: 1
+Expected: 0
+[  FAILED  ] ListTest.DeleteOne (0 ms)
+[ RUN      ] ListTest.AddOne
+[       OK ] ListTest.AddOne (0 ms)
+[ RUN      ] ListTest.AddAndCheckOne
+[       OK ] ListTest.AddAndCheckOne (0 ms)
+[ RUN      ] ListTest.PopOne
+cur.cpp:47: Failure
+Value of: l->len()
+  Actual: 1
+Expected: 0
+cur.cpp:48: Failure
+Value of: l->empty()
+  Actual: false
+Expected: true
+[  FAILED  ] ListTest.PopOne (0 ms)
+[ RUN      ] ListTest.PushPop
+[       OK ] ListTest.PushPop (0 ms)
+[ RUN      ] ListTest.PushPop1E3
+cur.cpp:111: Failure
+Failed
+Memory leak of 93720 Kbyte(s) detected.
+[  FAILED  ] ListTest.PushPop1E3 (425 ms)
+[----------] 7 tests from ListTest (425 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 1 test case ran. (425 ms total)
+[  PASSED  ] 4 tests.
+[  FAILED  ] 3 tests, listed below:
+[  FAILED  ] ListTest.DeleteOne
+[  FAILED  ] ListTest.PopOne
+[  FAILED  ] ListTest.PushPop1E3
+
+ 3 FAILED TESTS
