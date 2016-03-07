@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 
 using namespace std;
 
@@ -24,8 +24,8 @@ class AbstractList
 {
 protected:
     T _default;
-public:
-    virtual void sort(bool(*f) (T* first, T* second)) = 0;
+public :
+    virtual void sort(bool (*f) (T* first, T* second)) = 0;
     virtual T get(int index) = 0;
     virtual void set(int index, T data) = 0;
     virtual void insert(int index, T data) = 0;
@@ -50,7 +50,7 @@ public:
 
     virtual ostream& print(ostream& o)
     {
-        for (int i = 0; i < len(); i++)
+        for (int i = 0; i < len(); i ++)
         {
             o << get(i) << endl;
         }
@@ -61,7 +61,7 @@ public:
     {
         int count;
         in >> count;
-        for (int i = 0; i < count; i++)
+        for (int i = 0 ; i < count ; i ++)
         {
             T tmp;
             in >> tmp;
@@ -80,71 +80,11 @@ class list : public AbstractList<T>
 protected:
     T _default;
 private:
-    virtual void set(int index, T data, int c)
+    virtual void sort_line(bool (*f) (T*, T*))
     {
-        if (index == c)
-            _data = data;
-        if (next == NULL)
+        if(next->next->next==NULL)
             return;
-        else
-            next->set(index, data, c + 1);
-    }
-    virtual void insert(T data)
-    {
-        list* b = new list(_data, _default, next);
-        _data = data;
-        next = b;
-    }
-    virtual void insert(T data, int pos, int c)
-    {
-        if (next->next == NULL)
-        {
-            list* b = new list(data, _default, next);
-            next = b;
-            return;
-        }
-        if (c == (pos - 1))
-        {
-            list* b = new list(data, _default, next);
-            next = b;
-        }
-        else
-            next->insert(data, pos, c + 1);
-    }
-    virtual T _get(int index)
-    {
-        if (index == 0)
-            return _data;
-        if (next == NULL)
-            return _default;
-        else
-            return next->get(index - 1);
-    }
-    virtual T remove(int pos, int i)
-    {
-        if (pos == i + 1)
-        {
-            list* b = next->next;
-            T s = next->_data;
-            delete next;
-            next = b;
-            return s;
-        }
-        else
-            next->remove(pos, i + 1);
-    }
-    virtual int len(int c)
-    {
-        if (next == NULL)
-            return (c + 1);
-        else
-            return next->len(c + 1);
-    }
-    virtual void sort_line(bool(*f) (T*, T*))
-    {
-        if (next->next->next == NULL)
-            return;
-        if (f(&(next->_data), &(next->next->_data)))
+        if(f(&(next->_data), &(next->next->_data)))
         {
             list* tmp = next;
             next = next->next;
@@ -154,14 +94,8 @@ private:
         next->sort_line(f);
     }
 public:
-    list()
+    list(T def)
     {
-        _data = 0;
-        next = NULL;
-    }
-    list(T data, T def)
-    {
-        _data = data;
         _default = def;
         next = NULL;
     }
@@ -171,44 +105,85 @@ public:
         _default = def;
         next = nxt;
     }
+    virtual ~list()
+    {
+        next = NULL;
+    }
     virtual void set(int index, T data)
     {
-        set(index, data, 0);
+        if(next == NULL)
+            return;
+        if(index == 0)
+        {
+            _data = data;
+            return;
+        }
+        next->set(index-1, data);
     }
     virtual void insert(int index, T data)
     {
-        if (index == 0 || len()==0)
-            insert(data);
-        else
-            insert(data, index, 0);
+        if(index == 0)
+        {
+            list* tmp = new list(_data, _default, next);
+            _data = data;
+            next = tmp;
+            return;
+        }
+        if(next==NULL)
+            return;
+        if(index == 1 || next->next == NULL)
+        {
+            list* tmp = new list(data, _default, next);
+            next = tmp;
+            return;
+        }
+        next->insert(index-1,data);
     }
-    virtual T get(int index)
+    virtual T get (int index)
     {
-        return _get(index);
+        if(index==0)
+            return _data;
+        return next->get(index-1);
     }
     virtual T remove(int index)
     {
-        if (next == NULL)
-            return _default;
-        if (index == 0)
+        if(next == NULL)
         {
-            list* b = next;
-            T s = _data;
+            return _default;
+        }
+        if(index==0)
+        {
             _data = next->_data;
+            list* del = next;
             next = next->next;
-            delete b;
+            T s = del->_data;
+            delete del;
             return s;
         }
-        return remove(index, 0);
+        if(index == 1)
+        {
+            list* del = next;
+            next = next->next;
+            T s = del->_data;
+            delete del;
+            return s;
+        }
+        return next->remove(index-1);
+    }
+    virtual int len(int i)
+    {
+        if(next == NULL)
+            return i;
+        return next->len(i+1);
     }
     virtual int len()
     {
-        return len(0)-1;
+        return len(0);
     }
-    virtual void sort(bool(*f) (T*, T*))
+    virtual void sort(bool (*f) (T*, T*))
     {
         insert(0, _default);
-        for (int i = 0; i<len(); i++)
+        for(int i=0;i<len(); i++)
             sort_line(f);
         remove(0);
     }
@@ -217,13 +192,15 @@ public:
 template <typename T>
 bool gr(T* first, T* second)
 {
-    if (*first > *second)
+    if(*first > *second)
         return true;
     return false;
 }
 
 AbstractList<string>* get_init()
 {
-    list<string>* s = new list<string>("EMPTY", "!");
+    list<string>* s = new list<string>("EMPTY!");
     return s;
 }
+
+
