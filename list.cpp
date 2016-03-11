@@ -73,119 +73,109 @@ public :
 };
 
 template <typename T>
-class list : public AbstractList<T>
+class MyList: public AbstractList<T>
 {
     T _data;
-    list* next;
-protected:
-    T _default;
-private:
-    virtual void sort_line(bool (*f) (T*, T*))
+    MyList* next;
+    virtual int len(int n)
     {
-        if(next->next->next==NULL)
-            return;
-        if(f(&(next->_data), &(next->next->_data)))
-        {
-            list* tmp = next;
-            next = next->next;
-            tmp->next = next->next;
-            next->next = tmp;
-        }
-        next->sort_line(f);
+        if(next == NULL)
+            return n-1;
+        else
+            return next->len(n+1);
     }
+
 public:
-    list(T def)
+    MyList(T def) //init empty end
     {
-        _default = def;
+        this->next = NULL;
+        this->_default = def;
+    }
+    MyList(T def, MyList* s) //init empty head
+    {
+        this->next = s;
+        this->_default = def;
+    }
+    MyList(T data, T def, MyList* s) //insert
+    {
+        this->next = s;
+        this->_default = def;
+        this->_data = data;
+    }
+    virtual ~MyList()
+    {
         next = NULL;
     }
-    list(T data, T def, list* nxt)
+    virtual void swapper(bool (*f) (T* first, T* second))
     {
-        _data = data;
-        _default = def;
-        next = nxt;
+        if(next->next->next == NULL)
+            return;
+        else
+        {
+            if(f(&(next->_data), &(next->next->_data)))
+            {
+                MyList* tmp = next->next;
+                next->next = next->next->next;
+                tmp->next = next;
+                next = tmp;
+            }
+            return next->swapper(f);
+        }
     }
-    virtual ~list()
+
+    virtual void sort(bool (*f) (T* first, T* second))
     {
-        next = NULL;
+        for(int i=0; i < len(); i++)
+            swapper(f);
+    }
+    virtual T get(int index)
+    {
+        if(next->next == NULL || index < 0)
+            return this->_default;
+        if(index == 0)
+            return next->_data;
+        else
+            return next->get(index-1);
     }
     virtual void set(int index, T data)
     {
-        if(next == NULL)
+        if(next->next == NULL || index < 0)
             return;
         if(index == 0)
-        {
-            _data = data;
-            return;
-        }
-        next->set(index-1, data);
+            next->_data = data;
+        else
+            next->set(index-1, data);
     }
     virtual void insert(int index, T data)
     {
-        if(index == 0)
+        if(next == NULL || index < 0)
+            return;
+        if(index == 0 || next->next == NULL)
         {
-            list* tmp = new list(_data, _default, next);
-            _data = data;
-            next = tmp;
+            next = new MyList(data, this->_default, next);
             return;
         }
-        if(next==NULL)
-            return;
-        if(index == 1 || next->next == NULL)
-        {
-            list* tmp = new list(data, _default, next);
-            next = tmp;
-            return;
-        }
-        next->insert(index-1,data);
-    }
-    virtual T get (int index)
-    {
-        if(index==0)
-            return _data;
-        return next->get(index-1);
+        else
+            return next->insert(index-1, data);
     }
     virtual T remove(int index)
     {
-        if(next == NULL)
+        if(next->next == NULL || index < 0)
+            return this->_default;
+        if(index == 0)
         {
-            return _default;
-        }
-        if(index==0)
-        {
-            _data = next->_data;
-            list* del = next;
-            next = next->next;
-            T s = del->_data;
-            delete del;
+            MyList* Del = this->next;
+            this->next = this->next->next;
+            T s = Del->_data;
+            delete Del;
             return s;
         }
-        if(index == 1)
-        {
-            list* del = next;
-            next = next->next;
-            T s = del->_data;
-            delete del;
-            return s;
-        }
-        return next->remove(index-1);
-    }
-    virtual int len(int i)
-    {
-        if(next == NULL)
-            return i;
-        return next->len(i+1);
+        else
+            return next->remove(index-1);
     }
     virtual int len()
     {
         return len(0);
-    }
-    virtual void sort(bool (*f) (T*, T*))
-    {
-        insert(0, _default);
-        for(int i=0;i<len(); i++)
-            sort_line(f);
-        remove(0);
     }
 };
 
@@ -197,10 +187,21 @@ bool gr(T* first, T* second)
     return false;
 }
 
-AbstractList<string>* get_init()
+MyList<string>* get_init()
 {
-    list<string>* s = new list<string>("EMPTY!");
-    return s;
+    MyList<string>* end = new MyList<string>("EMPTY!");
+    MyList<string>* head = new MyList<string>("EMPTY!", end);
+    return head;
 }
 
-
+/*
+int main()
+{
+    MyList<string>* s = get_init();
+    for(;;)
+    {
+        s->push("s");
+        s->pop();
+    }
+    return 0;
+}*/
