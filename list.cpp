@@ -42,12 +42,10 @@ public :
         else
             return remove(0);
     }
-
     virtual bool empty()
     {
         return len() == 0;
     }
-
     virtual ostream& print(ostream& o)
     {
         for (int i = 0; i < len(); i ++)
@@ -56,7 +54,6 @@ public :
         }
         return o;
     }
-
     virtual istream& read(istream& in)
     {
         int count;
@@ -69,82 +66,93 @@ public :
         }
         return in;
     }
-
 };
 
 template <typename T>
-class MyList: public AbstractList<T>
+class NewList : public AbstractList<T>
 {
+    int headNumber;
     T _data;
-    MyList* next;
-    virtual int len(int n)
-    {
-        if(next == NULL)
-            return n-1;
-        else
-            return next->len(n+1);
-    }
-
+    NewList* next;
 public:
-    MyList(T def) //init empty end
+    NewList(NewList* Next)
     {
-        this->next = NULL;
-        this->_default = def;
+        this->headNumber = 0;
+        this->next = Next;
     }
-    MyList(T def, MyList* s) //init empty head
+    NewList(T Default) //init constructor with _default
     {
-        this->next = s;
-        this->_default = def;
+        this->headNumber = 0;
+        this->_default = Default;
+        this->next = new NewList(NULL); // end constructor
     }
-    MyList(T data, T def, MyList* s) //insert
+    NewList() //init constructor without _default
     {
-        this->next = s;
-        this->_default = def;
-        this->_data = data;
+        this->headNumber = 0;
+        this->next = new NewList(NULL); // end constructor
     }
-    virtual ~MyList()
+    NewList(T Data, T Default, NewList* Next) //add constructor
     {
-        next = NULL;
+        this->headNumber = 0;
+        this->_default = Default;
+        this->_data = Data;
+        this->next = Next;
     }
-    virtual void swapper(bool (*f) (T* first, T* second))
+    NewList(const NewList& a) //copy constructor
     {
-        if(next->next->next == NULL)
-            return;
-        else
+        this->headNumber = a.headNumber + 1;
+        this->_data = a._data;
+        this->_default = a._default;
+        this->next = a.next;
+    }
+    NewList& operator = (NewList& a)
+    {
+        NewList* tmp = new NewList;
+        tmp->_default = a._default;
+        tmp->_data = a._data;
+        tmp->next = a.next;
+        tmp->headNumber = a.headNumber + 1;
+        return *tmp;
+    }
+    virtual ~NewList() //destructor
+    {
+        if(this->headNumber != 0)
         {
-            if(f(&(next->_data), &(next->next->_data)))
-            {
-                MyList* tmp = next->next;
-                next->next = next->next->next;
-                tmp->next = next;
-                next = tmp;
-            }
-            return next->swapper(f);
+            //cout << "haha";
+            next == NULL;
         }
-    }
-
-    virtual void sort(bool (*f) (T* first, T* second))
-    {
-        for(int i=0; i < len(); i++)
-            swapper(f);
     }
     virtual T get(int index)
     {
-        if(next->next == NULL || index < 0)
+        if(index>=len() || index < 0)
             return this->_default;
         if(index == 0)
             return next->_data;
         else
             return next->get(index-1);
     }
+    int len(int c)
+    {
+        if(next == NULL)
+            return c;
+        else
+            return next->len(c+1);
+    }
+    virtual int len()
+    {
+        return len(-1);
+    }
     virtual void set(int index, T data)
     {
         if(next->next == NULL || index < 0)
             return;
         if(index == 0)
+        {
             next->_data = data;
+            return;
+        }
         else
-            next->set(index-1, data);
+            return next->set(index-1, data);
     }
     virtual void insert(int index, T data)
     {
@@ -152,7 +160,7 @@ public:
             return;
         if(index == 0 || next->next == NULL)
         {
-            next = new MyList(data, this->_default, next);
+            next = new NewList(data, this->_default, next);
             return;
         }
         else
@@ -164,20 +172,39 @@ public:
             return this->_default;
         if(index == 0)
         {
-            MyList* Del = this->next;
-            this->next = this->next->next;
+            NewList* Del = next;
+            next = next->next;
+            Del->headNumber++;
             T s = Del->_data;
             delete Del;
             return s;
         }
         else
-            return next->remove(index-1);
+            return next->remove(index - 1);
     }
-    virtual int len()
+    virtual void sort(bool (*f) (T* first, T* second))
     {
-        return len(0);
+        for(int i=0; i < len(); i++)
+            swapper(f);
+    }
+    virtual void swapper(bool (*f) (T* first, T* second))
+    {
+        if(next->next->next == NULL)
+            return;
+        else
+        {
+            if(f(&(next->_data), &(next->next->_data)))
+            {
+                NewList* tmp = next->next;
+                next->next = next->next->next;
+                tmp->next = next;
+                next = tmp;
+            }
+            return next->swapper(f);
+        }
     }
 };
+
 
 template <typename T>
 bool gr(T* first, T* second)
@@ -187,21 +214,9 @@ bool gr(T* first, T* second)
     return false;
 }
 
-MyList<string>* get_init()
+NewList<string>* get_init()
 {
-    MyList<string>* end = new MyList<string>("EMPTY!");
-    MyList<string>* head = new MyList<string>("EMPTY!", end);
-    return head;
+    NewList<string>* init = new NewList<string>("EMPTY!");
+    return init;
 }
 
-/*
-int main()
-{
-    MyList<string>* s = get_init();
-    for(;;)
-    {
-        s->push("s");
-        s->pop();
-    }
-    return 0;
-}*/
