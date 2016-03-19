@@ -2,19 +2,21 @@
 [----------] Global test environment set-up.
 [----------] 7 tests from ListTest
 [ RUN      ] ListTest.ListLen
-cur.cpp:15: Failure
-Value of: l->len()
-  Actual: 0
-Expected: 1
-[  FAILED  ] ListTest.ListLen (0 ms)
+[       OK ] ListTest.ListLen (0 ms)
 [ RUN      ] ListTest.DeleteOne
 [       OK ] ListTest.DeleteOne (0 ms)
 [ RUN      ] ListTest.AddOne
-cur.cpp:31: Failure
-Value of: l->len()
-  Actual: 0
-Expected: 2
-[  FAILED  ] ListTest.AddOne (0 ms)
+[       OK ] ListTest.AddOne (0 ms)
 [ RUN      ] ListTest.AddAndCheckOne
-FAIL
-Segmentation fault. Program terminated!
+[       OK ] ListTest.AddAndCheckOne (0 ms)
+[ RUN      ] ListTest.PopOne
+[       OK ] ListTest.PopOne (0 ms)
+[ RUN      ] ListTest.PushPop
+[       OK ] ListTest.PushPop (0 ms)
+[ RUN      ] ListTest.PushPop1E3
+[       OK ] ListTest.PushPop1E3 (209 ms)
+[----------] 7 tests from ListTest (209 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 1 test case ran. (209 ms total)
+[  PASSED  ] 7 tests.
