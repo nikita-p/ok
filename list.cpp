@@ -220,3 +220,11 @@ NewList<string>* get_init()
     return init;
 }
 
+/*int main()
+{
+    AbstractList<string>* l = get_init();
+    l->pop();
+    cout << l->len();
+    
+}
+*/
