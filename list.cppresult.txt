@@ -2,21 +2,15 @@
 [----------] Global test environment set-up.
 [----------] 7 tests from ListTest
 [ RUN      ] ListTest.ListLen
-[       OK ] ListTest.ListLen (0 ms)
+[       OK ] ListTest.ListLen
 [ RUN      ] ListTest.DeleteOne
-[       OK ] ListTest.DeleteOne (0 ms)
+[       OK ] ListTest.DeleteOne
 [ RUN      ] ListTest.AddOne
-[       OK ] ListTest.AddOne (0 ms)
+[       OK ] ListTest.AddOne
 [ RUN      ] ListTest.AddAndCheckOne
-[       OK ] ListTest.AddAndCheckOne (0 ms)
+[       OK ] ListTest.AddAndCheckOne
 [ RUN      ] ListTest.PopOne
-[       OK ] ListTest.PopOne (0 ms)
+[       OK ] ListTest.PopOne
 [ RUN      ] ListTest.PushPop
-[       OK ] ListTest.PushPop (0 ms)
-[ RUN      ] ListTest.PushPop1E3
-[       OK ] ListTest.PushPop1E3 (209 ms)
-[----------] 7 tests from ListTest (209 ms total)
-
-[----------] Global test environment tear-down
-[==========] 7 tests from 1 test case ran. (209 ms total)
-[  PASSED  ] 7 tests.
+FAIL
+Segmentation fault. Program terminated!
