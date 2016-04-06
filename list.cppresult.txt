@@ -12,5 +12,9 @@
 [ RUN      ] ListTest.PopOne
 [       OK ] ListTest.PopOne
 [ RUN      ] ListTest.PushPop
+three--
+zero
+one
+two
 FAIL
 Segmentation fault. Program terminated!
