@@ -1,1 +1,16 @@
-./check.sh: line 5: ./nikita/list.cpp.out: No such file or directory
+[==========] Running 7 tests from 1 test case.
+[----------] Global test environment set-up.
+[----------] 7 tests from ListTest
+[ RUN      ] ListTest.ListLen
+[       OK ] ListTest.ListLen
+[ RUN      ] ListTest.DeleteOne
+[       OK ] ListTest.DeleteOne
+[ RUN      ] ListTest.AddOne
+[       OK ] ListTest.AddOne
+[ RUN      ] ListTest.AddAndCheckOne
+[       OK ] ListTest.AddAndCheckOne
+[ RUN      ] ListTest.PopOne
+[       OK ] ListTest.PopOne
+[ RUN      ] ListTest.PushPop
+FAIL
+Segmentation fault. Program terminated!
