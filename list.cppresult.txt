@@ -1,5 +1,20 @@
-cur.cpp: In member function 'virtual void ListTest_PushPop_Test::TestBody()':
-cur.cpp:79:8: error: 'res' was not declared in this scope
-   if (!res) return;
-        ^
-./check.sh: line 24: ./a.out: No such file or directory
+[==========] Running 7 tests from 1 test case.
+[----------] Global test environment set-up.
+[----------] 7 tests from ListTest
+[ RUN      ] ListTest.ListLen
+[       OK ] ListTest.ListLen
+[ RUN      ] ListTest.DeleteOne
+[       OK ] ListTest.DeleteOne
+[ RUN      ] ListTest.AddOne
+[       OK ] ListTest.AddOne
+[ RUN      ] ListTest.AddAndCheckOne
+[       OK ] ListTest.AddAndCheckOne
+[ RUN      ] ListTest.PopOne
+[       OK ] ListTest.PopOne
+[ RUN      ] ListTest.PushPop
+[       OK ] ListTest.PushPop
+[ RUN      ] ListTest.PushPop1E3
+[       OK ] ListTest.PushPop1E3
+[----------] Global test environment tear-down
+[==========] 7 tests from 1 test case ran.
+[  PASSED  ] 7 tests.
