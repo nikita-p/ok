@@ -14,3 +14,7 @@
 [ RUN      ] ListTest.PushPop
 [       OK ] ListTest.PushPop
 [ RUN      ] ListTest.PushPop1E3
+[       OK ] ListTest.PushPop1E3
+[----------] Global test environment tear-down
+[==========] 7 tests from 1 test case ran.
+[  PASSED  ] 7 tests.
